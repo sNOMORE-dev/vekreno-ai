@@ -1,1 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In | NO MORE</title>
+  <meta name="description" content="Sign in to your NO MORE account to access the student dashboard, exam generator, saved papers, and points.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-bg"></div>
 
+  <main class="container auth-layout">
+    <section class="auth-panel panel">
+      <div class="auth-brand">
+        <div class="brand-mark">N</div>
+        <div>
+          <p class="brand-name">NO MORE</p>
+          <p class="brand-tag">Welcome back</p>
+        </div>
+      </div>
+
+      <h1>Sign in to continue.</h1>
+      <p class="lead">
+        Access your dashboard, generated papers, student points, and platform tools from your account.
+      </p>
+
+      <form id="signinForm" class="auth-form">
+        <div class="form-row">
+          <label for="loginEmail">Email address</label>
+          <input id="loginEmail" name="loginEmail" type="email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-row">
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" name="loginPassword" type="password" placeholder="Enter your password" required>
+        </div>
+
+        <div class="form-row inline-row">
+          <label class="check-wrap">
+            <input type="checkbox" id="rememberMe">
+            <span>Remember me</span>
+          </label>
+          <a href="support.html">Need help?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full">Sign in</button>
+      </form>
+
+      <p class="auth-footer">
+        New here? <a href="signup.html">Create an account</a>
+      </p>
+    </section>
+
+    <aside class="auth-side panel">
+      <p class="eyebrow">What you get</p>
+      <h2>Your student workspace is ready after sign in.</h2>
+
+      <div class="side-list">
+        <div class="side-item">
+          <span>01</span>
+          <p>Open the dashboard and see your overview.</p>
+        </div>
+        <div class="side-item">
+          <span>02</span>
+          <p>Generate or view saved exam papers.</p>
+        </div>
+        <div class="side-item">
+          <span>03</span>
+          <p>Check your level, points, and upgrade options.</p>
+        </div>
+      </div>
+
+      <div class="mini-note">
+        You can wire this page to localStorage and redirect to dashboard after a successful login.
+      </div>
+    </aside>
+  </main>
+</body>
+</html>
