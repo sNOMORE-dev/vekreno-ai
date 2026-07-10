@@ -1,364 +1,363 @@
-const USERS_KEY = "nomore_users";
-const CURRENT_USER_KEY = "nomore_current_user";
+document.addEventListener("DOMContentLoaded", () => {
+  const STORAGE_KEY = "nm_more_app_v1";
 
-function getUsers() {
-  return JSON.parse(localStorage.getItem(USERS_KEY)) || [];
-}
-
-function saveUsers(users) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
-
-function getCurrentUser() {
-  return JSON.parse(localStorage.getItem(CURRENT_USER_KEY)) || null;
-}
-
-function setCurrentUser(user) {
-  localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
-}
-
-function clearCurrentUser() {
-  localStorage.removeItem(CURRENT_USER_KEY);
-}
-
-function normalizeEmail(email) {
-  return String(email || "").trim().toLowerCase();
-}
-
-function safeValue(value) {
-  return String(value || "").trim();
-}
-
-function findUserByEmail(email) {
-  const users = getUsers();
-  const normalized = normalizeEmail(email);
-  return users.find(user => normalizeEmail(user.email) === normalized) || null;
-}
-
-function registerUser({ fullName, email, phone, role, password, confirmPassword }) {
-  fullName = safeValue(fullName);
-  email = normalizeEmail(email);
-  phone = safeValue(phone);
-  role = safeValue(role) || "student";
-  password = safeValue(password);
-  confirmPassword = safeValue(confirmPassword);
-
-  if (!fullName || !email || !phone || !role || !password || !confirmPassword) {
-    return { ok: false, message: "Please fill in all fields." };
-  }
-
-  if (password !== confirmPassword) {
-    return { ok: false, message: "Passwords do not match." };
-  }
-
-  if (password.length < 6) {
-    return { ok: false, message: "Password must be at least 6 characters." };
-  }
-
-  const users = getUsers();
-  const exists = users.some(user => normalizeEmail(user.email) === email);
-
-  if (exists) {
-    return { ok: false, message: "An account with this email already exists." };
-  }
-
-  const newUser = {
-    id: Date.now().toString(),
-    fullName,
-    email,
-    phone,
-    role,
-    password,
+  const defaultState = {
+    user: null,
+    progress: 0,
     points: 0,
     level: 1,
-    upgraded: false,
-    savedExams: [],
-    createdAt: new Date().toISOString()
+    papers: [],
+    completedTopics: [],
+    streak: 0,
+    lastStudyDate: null,
+    notes: [],
   };
 
-  users.push(newUser);
-  saveUsers(users);
-
-  return { ok: true, user: newUser };
-}
-
-function loginUser(email, password, rememberMe = false) {
-  email = normalizeEmail(email);
-  password = safeValue(password);
-
-  if (!email || !password) {
-    return { ok: false, message: "Please enter your email and password." };
-  }
-
-  const user = findUserByEmail(email);
-
-  if (!user || user.password !== password) {
-    return { ok: false, message: "Invalid email or password." };
-  }
-
-  setCurrentUser({
-    id: user.id,
-    fullName: user.fullName,
-    email: user.email,
-    phone: user.phone,
-    role: user.role,
-    points: user.points,
-    level: user.level,
-    upgraded: user.upgraded,
-    rememberMe: !!rememberMe
-  });
-
-  if (rememberMe) {
-    localStorage.setItem("nomore_remember_me", "true");
-  } else {
-    localStorage.removeItem("nomore_remember_me");
-  }
-
-  return { ok: true, user };
-}
-
-function logoutUser() {
-  clearCurrentUser();
-  localStorage.removeItem("nomore_remember_me");
-  window.location.href = "signin.html";
-}
-
-function requireAuth() {
-  const currentUser = getCurrentUser();
-  if (!currentUser) {
-    window.location.href = "signin.html";
-    return null;
-  }
-  return currentUser;
-}
-
-function updateCurrentUser(patch) {
-  const current = getCurrentUser();
-  if (!current) return null;
-
-  const users = getUsers();
-  const index = users.findIndex(user => user.id === current.id);
-  if (index === -1) return null;
-
-  users[index] = { ...users[index], ...patch };
-  saveUsers(users);
-
-  const updatedCurrent = {
-    id: users[index].id,
-    fullName: users[index].fullName,
-    email: users[index].email,
-    phone: users[index].phone,
-    role: users[index].role,
-    points: users[index].points,
-    level: users[index].level,
-    upgraded: users[index].upgraded
+  const safeParse = (value, fallback) => {
+    try {
+      return value ? JSON.parse(value) : fallback;
+    } catch {
+      return fallback;
+    }
   };
 
-  setCurrentUser(updatedCurrent);
-  return updatedCurrent;
-}
+  const loadState = () => {
+    const stored = safeParse(localStorage.getItem(STORAGE_KEY), null);
+    return { ...defaultState, ...(stored || {}) };
+  };
 
-function saveExamPaper(exam) {
-  const current = requireAuth();
-  if (!current) return { ok: false, message: "Not logged in." };
+  let state = loadState();
 
-  const users = getUsers();
-  const index = users.findIndex(user => user.id === current.id);
-  if (index === -1) return { ok: false, message: "User not found." };
+  const saveState = () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  };
 
-  if (!Array.isArray(users[index].savedExams)) {
-    users[index].savedExams = [];
-  }
+  const todayKey = () => new Date().toISOString().slice(0, 10);
 
-  users[index].savedExams.unshift({
-    id: Date.now().toString(),
-    title: exam.title || "Untitled Exam",
-    subject: exam.subject || "",
-    content: exam.content || "",
-    createdAt: new Date().toISOString()
-  });
+  const awardPoints = (amount) => {
+    state.points = Math.max(0, (state.points || 0) + amount);
+    state.level = Math.max(1, Math.floor(state.points / 100) + 1);
+    saveState();
+    refreshStats();
+  };
 
-  saveUsers(users);
-  updateCurrentUser({});
-  return { ok: true };
-}
+  const updateStreak = () => {
+    const today = todayKey();
+    if (state.lastStudyDate === today) return;
 
-function awardPoints(points = 10) {
-  const current = requireAuth();
-  if (!current) return { ok: false, message: "Not logged in." };
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayKey = yesterday.toISOString().slice(0, 10);
 
-  const users = getUsers();
-  const index = users.findIndex(user => user.id === current.id);
-  if (index === -1) return { ok: false, message: "User not found." };
-
-  users[index].points = Number(users[index].points || 0) + Number(points || 0);
-  users[index].level = Math.max(1, Math.floor(users[index].points / 100) + 1);
-
-  saveUsers(users);
-  updateCurrentUser({});
-  return { ok: true, points: users[index].points, level: users[index].level };
-}
-
-function initSignupPage() {
-  const form = document.getElementById("signupForm");
-  if (!form) return;
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const result = registerUser({
-      fullName: form.fullName.value,
-      email: form.email.value,
-      phone: form.phone.value,
-      role: form.role.value,
-      password: form.password.value,
-      confirmPassword: form.confirmPassword.value
-    });
-
-    if (!result.ok) {
-      alert(result.message);
-      return;
+    if (state.lastStudyDate === yesterdayKey) {
+      state.streak = (state.streak || 0) + 1;
+    } else {
+      state.streak = 1;
     }
 
-    alert("Account created successfully. Please sign in.");
-    window.location.href = "signin.html";
-  });
-}
+    state.lastStudyDate = today;
+    saveState();
+  };
 
-function initSigninPage() {
-  const form = document.getElementById("signinForm");
-  if (!form) return;
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const result = loginUser(
-      form.loginEmail.value,
-      form.loginPassword.value,
-      form.rememberMe ? form.rememberMe.checked : false
-    );
-
-    if (!result.ok) {
-      alert(result.message);
-      return;
+  const markTopicDone = (topic) => {
+    if (!topic) return;
+    if (!state.completedTopics.includes(topic)) {
+      state.completedTopics.push(topic);
+      state.progress = Math.min(100, state.progress + 8);
+      awardPoints(15);
+      updateStreak();
+      saveState();
+      refreshLearningUI();
     }
+  };
 
-    alert(`Welcome back, ${result.user.fullName}`);
-    window.location.href = "dashboard.html";
-  });
-}
-
-function initDashboardPage() {
-  const current = requireAuth();
-  if (!current) return;
-
-  const nameTarget = document.querySelector("[data-user-name]");
-  const emailTarget = document.querySelector("[data-user-email]");
-  const pointsTarget = document.querySelector("[data-user-points]");
-  const levelTarget = document.querySelector("[data-user-level]");
-  const roleTarget = document.querySelector("[data-user-role]");
-
-  if (nameTarget) nameTarget.textContent = current.fullName;
-  if (emailTarget) emailTarget.textContent = current.email;
-  if (pointsTarget) pointsTarget.textContent = current.points ?? 0;
-  if (levelTarget) levelTarget.textContent = current.level ?? 1;
-  if (roleTarget) roleTarget.textContent = current.role ?? "student";
-
-  const logoutBtn = document.getElementById("logoutBtn");
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", logoutUser);
-  }
-}
-
-function initSavedExamsPage() {
-  const current = requireAuth();
-  if (!current) return;
-
-  const users = getUsers();
-  const user = users.find(u => u.id === current.id);
-  const list = document.getElementById("savedExamsList");
-  if (!list) return;
-
-  const exams = Array.isArray(user?.savedExams) ? user.savedExams : [];
-  if (!exams.length) {
-    list.innerHTML = "<p>No saved exam papers yet.</p>";
-    return;
-  }
-
-  list.innerHTML = exams.map(exam => `
-    <article class="card">
-      <h3>${exam.title}</h3>
-      <p>${exam.subject || "No subject"}</p>
-      <small>${new Date(exam.createdAt).toLocaleString()}</small>
-    </article>
-  `).join("");
-}
-
-function initUpgradePage() {
-  const current = requireAuth();
-  if (!current) return;
-
-  const buttons = document.querySelectorAll("[data-upgrade-plan]");
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      updateCurrentUser({ upgraded: true });
-      alert("Upgrade activated.");
-      window.location.href = "dashboard.html";
+  const addPaper = (paper) => {
+    if (!paper || !paper.title) return;
+    state.papers.unshift({
+      id: crypto?.randomUUID?.() || String(Date.now()),
+      title: paper.title,
+      subject: paper.subject || "General",
+      createdAt: new Date().toISOString(),
     });
-  });
-}
+    awardPoints(10);
+    state.progress = Math.min(100, state.progress + 5);
+    saveState();
+    renderSavedPapers();
+    refreshLearningUI();
+  };
 
-function initGeneratorPage() {
-  const current = requireAuth();
-  if (!current) return;
+  const removePaper = (id) => {
+    state.papers = state.papers.filter((p) => p.id !== id);
+    saveState();
+    renderSavedPapers();
+  };
 
-  const form = document.getElementById("examGeneratorForm");
-  const output = document.getElementById("generatedExamOutput");
-  const saveBtn = document.getElementById("saveGeneratedExam");
+  const logout = () => {
+    state.user = null;
+    saveState();
+    refreshAuthUI();
+  };
 
-  if (!form || !output) return;
+  const login = (name, email) => {
+    state.user = {
+      name: name.trim(),
+      email: email.trim(),
+    };
+    updateStreak();
+    awardPoints(20);
+    saveState();
+    refreshAuthUI();
+    refreshStats();
+  };
 
-  let lastGenerated = null;
+  const el = (selector) => document.querySelector(selector);
+  const els = (selector) => Array.from(document.querySelectorAll(selector));
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  const setText = (selector, value) => {
+    const node = el(selector);
+    if (node) node.textContent = value;
+  };
 
-    const title = form.examTitle?.value || "Generated Exam";
-    const subject = form.subject?.value || "";
-    const topic = form.topic?.value || "";
-    const level = form.difficulty?.value || "Medium";
-    const count = form.questionCount?.value || "10";
+  const animateNumber = (node, from, to, duration = 700) => {
+    if (!node) return;
+    const start = performance.now();
+    const diff = to - from;
 
-    lastGenerated = {
-      title,
-      subject,
-      content: `Exam: ${title}
-Subject: ${subject}
-Topic: ${topic}
-Level: ${level}
-Questions: ${count}`
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      node.textContent = Math.round(from + diff * eased);
+      if (t < 1) requestAnimationFrame(step);
     };
 
-    output.textContent = lastGenerated.content;
+    requestAnimationFrame(step);
+  };
+
+  const refreshStats = () => {
+    const progressNode = el("[data-progress-text]");
+    const pointsNode = el("[data-points]");
+    const levelNode = el("[data-level]");
+    const streakNode = el("[data-streak]");
+    const progressBar = el("[data-progress-bar]");
+
+    if (progressNode) progressNode.textContent = `${Math.round(state.progress || 0)}%`;
+    if (progressBar) progressBar.style.width = `${Math.max(0, Math.min(100, state.progress || 0))}%`;
+
+    if (pointsNode) {
+      const current = Number(pointsNode.textContent || 0);
+      animateNumber(pointsNode, current, state.points || 0);
+    }
+
+    if (levelNode) {
+      const current = Number(levelNode.textContent || 1);
+      animateNumber(levelNode, current, state.level || 1);
+    }
+
+    if (streakNode) {
+      const current = Number(streakNode.textContent || 0);
+      animateNumber(streakNode, current, state.streak || 0);
+    }
+  };
+
+  const refreshLearningUI = () => {
+    refreshStats();
+
+    els("[data-topic]").forEach((btn) => {
+      const topic = btn.getAttribute("data-topic");
+      const done = state.completedTopics.includes(topic);
+      btn.classList.toggle("is-done", done);
+      btn.textContent = done ? "Completed" : "Mark Complete";
+    });
+
+    const badge = el("[data-learning-badge]");
+    if (badge) {
+      badge.textContent =
+        state.progress >= 100
+          ? "Mission Complete"
+          : state.progress >= 75
+          ? "Almost There"
+          : state.progress >= 40
+          ? "Learning Strong"
+          : "Start Your Quest";
+    }
+
+    const levelTitle = el("[data-level-title]");
+    if (levelTitle) {
+      const levelName =
+        state.level >= 10 ? "Scholar Legend" :
+        state.level >= 7 ? "Study Explorer" :
+        state.level >= 4 ? "Quest Learner" :
+        "Rising Student";
+
+      levelTitle.textContent = levelName;
+    }
+  };
+
+  const renderSavedPapers = () => {
+    const list = el("[data-paper-list]");
+    if (!list) return;
+
+    if (!state.papers.length) {
+      list.innerHTML = `
+        <div class="study-card">
+          <p class="lead">No saved papers yet. Your first paper will appear here like a hidden clue.</p>
+        </div>
+      `;
+      return;
+    }
+
+    list.innerHTML = state.papers
+      .map(
+        (paper) => `
+          <div class="study-card moving-stars">
+            <div class="mini-row">
+              <strong>${escapeHtml(paper.title)}</strong>
+              <span>${escapeHtml(paper.subject)}</span>
+            </div>
+            <div class="mini-row">
+              <span>${new Date(paper.createdAt).toLocaleString()}</span>
+              <button class="btn btn-outline" data-remove-paper="${paper.id}">Remove</button>
+            </div>
+          </div>
+        `
+      )
+      .join("");
+
+    els("[data-remove-paper]").forEach((btn) => {
+      btn.addEventListener("click", () => removePaper(btn.getAttribute("data-remove-paper")));
+    });
+  };
+
+  const refreshAuthUI = () => {
+    const loginBox = el("[data-login-box]");
+    const userBox = el("[data-user-box]");
+    const userName = el("[data-user-name]");
+    const userEmail = el("[data-user-email]");
+
+    if (state.user) {
+      if (loginBox) loginBox.hidden = true;
+      if (userBox) userBox.hidden = false;
+      if (userName) userName.textContent = state.user.name;
+      if (userEmail) userEmail.textContent = state.user.email;
+    } else {
+      if (loginBox) loginBox.hidden = false;
+      if (userBox) userBox.hidden = true;
+    }
+  };
+
+  const escapeHtml = (str) => {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  };
+
+  const bindLoginForm = () => {
+    const form = el("[data-login-form]");
+    if (!form) return;
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = form.querySelector("[name='name']")?.value || "";
+      const email = form.querySelector("[name='email']")?.value || "";
+
+      if (!name.trim() || !email.trim()) return;
+
+      login(name, email);
+      form.reset();
+
+      const success = el("[data-login-success]");
+      if (success) {
+        success.textContent = `Welcome, ${name}! Your study journey has started.`;
+        success.hidden = false;
+      }
+    });
+  };
+
+  const bindPaperForm = () => {
+    const form = el("[data-paper-form]");
+    if (!form) return;
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const title = form.querySelector("[name='title']")?.value || "";
+      const subject = form.querySelector("[name='subject']")?.value || "";
+      addPaper({ title, subject });
+      form.reset();
+    });
+  };
+
+  const bindTopicButtons = () => {
+    els("[data-topic]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const topic = btn.getAttribute("data-topic");
+        markTopicDone(topic);
+      });
+    });
+  };
+
+  const bindLogout = () => {
+    const btn = el("[data-logout]");
+    if (btn) btn.addEventListener("click", logout);
+  };
+
+  const autoBoostProgress = () => {
+    const bar = el("[data-progress-bar]");
+    if (!bar) return;
+
+    const fill = () => {
+      const target = Math.max(0, Math.min(100, state.progress || 0));
+      bar.style.transition = "width 900ms cubic-bezier(.2,.8,.2,1)";
+      bar.style.width = `${target}%`;
+    };
+
+    requestAnimationFrame(fill);
+  };
+
+  const initDefaultDemoData = () => {
+    if (state.papers.length === 0 && !state.user) {
+      state.papers = [
+        {
+          id: "demo-1",
+          title: "Math Revision Notes",
+          subject: "Math",
+          createdAt: new Date().toISOString(),
+        },
+      ];
+      state.progress = 22;
+      state.points = 35;
+      state.level = 1;
+      saveState();
+    }
+  };
+
+  initDefaultDemoData();
+  refreshAuthUI();
+  refreshLearningUI();
+  renderSavedPapers();
+  bindLoginForm();
+  bindPaperForm();
+  bindTopicButtons();
+  bindLogout();
+  autoBoostProgress();
+
+  window.addEventListener("storage", (event) => {
+    if (event.key === STORAGE_KEY) {
+      state = loadState();
+      refreshAuthUI();
+      refreshLearningUI();
+      renderSavedPapers();
+    }
   });
 
-  if (saveBtn) {
-    saveBtn.addEventListener("click", () => {
-      if (!lastGenerated) {
-        alert("Generate an exam first.");
-        return;
-      }
-      saveExamPaper(lastGenerated);
-      alert("Exam saved successfully.");
-    });
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  initSignupPage();
-  initSigninPage();
-  initDashboardPage();
-  initSavedExamsPage();
-  initUpgradePage();
-  initGeneratorPage();
+  window.NMMoreApp = {
+    state: () => ({ ...state }),
+    addPaper,
+    markTopicDone,
+    login,
+    logout,
+    awardPoints,
+  };
 });
