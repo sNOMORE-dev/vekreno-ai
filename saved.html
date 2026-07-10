@@ -1,1 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saved Papers | NO MORE</title>
+  <meta name="description" content="View your saved exam papers in the NO MORE platform.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-bg"></div>
 
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark">N</div>
+      <div>
+        <p class="brand-name">NO MORE</p>
+        <p class="brand-tag">Saved exam papers</p>
+      </div>
+    </div>
+
+    <nav class="top-nav" aria-label="Primary">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="generate.html">Generate</a>
+      <a href="points.html">Points</a>
+      <a href="support.html">Support</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="nav-link" href="dashboard.html">Back to dashboard</a>
+    </div>
+  </header>
+
+  <main class="container landing">
+    <section class="hero panel">
+      <div class="hero-copy">
+        <p class="eyebrow">Your library</p>
+        <h1>Review the exam papers you already created.</h1>
+        <p class="lead">
+          Saved exam papers stay linked to your account so you can open them again whenever you need them.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="generate.html">Create another exam</a>
+          <a class="btn btn-secondary" href="dashboard.html">Go to dashboard</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="mini-preview">
+          <p class="mini-title">Storage summary</p>
+          <div class="mini-row"><span>Collection</span><strong>Saved exams</strong></div>
+          <div class="mini-row"><span>Source</span><strong>Local browser storage</strong></div>
+          <div class="mini-row"><span>Mode</span><strong>Per account</strong></div>
+          <div class="mini-row"><span>Visibility</span><strong>Private</strong></div>
+        </div>
+
+        <div class="mini-panel">
+          <p>When the page loads, JavaScript can read your saved exams and show them below as cards.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-heading">
+      <p class="eyebrow">Saved papers</p>
+      <h2>All stored exam papers appear here.</h2>
+    </section>
+
+    <section id="savedExamsList" class="grid cards-3">
+      <article class="panel feature-card">
+        <h3>No papers yet</h3>
+        <p>Your saved exams will show up here after you generate and save one.</p>
+      </article>
+    </section>
+
+    <section class="panel cta-banner">
+      <div>
+        <p class="eyebrow">Need more space?</p>
+        <h2>Keep generating papers and organize them by subject or topic.</h2>
+        <p>
+          The app.js file can insert saved items here dynamically using DOMContentLoaded and localStorage retrieval.
+        </p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="generate.html">Open generator</a>
+        <a class="btn btn-secondary" href="points.html">View points</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
