@@ -1,1 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel | NO MORE</title>
+  <meta name="description" content="Admin dashboard for managing users, exams, and platform activity in NO MORE.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-bg"></div>
 
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark">N</div>
+      <div>
+        <p class="brand-name">NO MORE</p>
+        <p class="brand-tag">Admin panel</p>
+      </div>
+    </div>
+
+    <nav class="top-nav" aria-label="Primary">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="generate.html">Generate</a>
+      <a href="saved.html">Saved papers</a>
+      <a href="support.html">Support</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="nav-link" href="dashboard.html">Back to dashboard</a>
+    </div>
+  </header>
+
+  <main class="container landing">
+    <section class="hero panel">
+      <div class="hero-copy">
+        <p class="eyebrow">Admin control</p>
+        <h1>Manage users and platform activity.</h1>
+        <p class="lead">
+          This page is for viewing account data, checking saved exam totals, and handling platform-level oversight.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#usersTable">View users</a>
+          <a class="btn btn-secondary" href="#metrics">View metrics</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="mini-preview">
+          <p class="mini-title">Admin summary</p>
+          <div class="mini-row"><span>Users</span><strong data-admin-users>0</strong></div>
+          <div class="mini-row"><span>Saved exams</span><strong data-admin-exams>0</strong></div>
+          <div class="mini-row"><span>Upgraded</span><strong data-admin-premium>0</strong></div>
+          <div class="mini-row"><span>Status</span><strong>Protected</strong></div>
+        </div>
+
+        <div class="mini-panel">
+          <p>Use app.js to protect this page so only admin users can access it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="metrics" class="section-heading">
+      <p class="eyebrow">Overview</p>
+      <h2>Platform activity at a glance.</h2>
+    </section>
+
+    <section class="grid cards-3">
+      <article class="panel feature-card">
+        <h3>Total users</h3>
+        <p><strong data-admin-users>0</strong> registered accounts</p>
+      </article>
+
+      <article class="panel feature-card">
+        <h3>Saved exams</h3>
+        <p><strong data-admin-exams>0</strong> exam papers stored</p>
+      </article>
+
+      <article class="panel feature-card">
+        <h3>Premium users</h3>
+        <p><strong data-admin-premium>0</strong> upgraded accounts</p>
+      </article>
+    </section>
+
+    <section class="section-heading">
+      <p class="eyebrow">User list</p>
+      <h2>Registered accounts in the system.</h2>
+    </section>
+
+    <section class="panel" style="padding: 18px;">
+      <div style="overflow-x:auto;">
+        <table id="usersTable" class="admin-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Role</th>
+              <th>Points</th>
+              <th>Level</th>
+              <th>Premium</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="7">No users loaded yet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section-heading">
+      <p class="eyebrow">Exam storage</p>
+      <h2>Saved exam papers by account.</h2>
+    </section>
+
+    <section class="panel" style="padding: 18px;">
+      <div style="overflow-x:auto;">
+        <table id="examsTable" class="admin-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Exam title</th>
+              <th>Subject</th>
+              <th>Created at</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="4">No exam records loaded yet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel cta-banner">
+      <div>
+        <p class="eyebrow">Admin tools</p>
+        <h2>Connect filters, delete actions, and export controls later.</h2>
+        <p>
+          This page already gives you the structure for dashboard metrics and stored data management.
+        </p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="dashboard.html">Open dashboard</a>
+        <a class="btn btn-secondary" href="support.html">Open support</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
