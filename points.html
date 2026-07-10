@@ -1,1 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upgrade Plan | NO MORE</title>
+  <meta name="description" content="Upgrade your NO MORE account to unlock premium exam platform features.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-bg"></div>
 
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark">N</div>
+      <div>
+        <p class="brand-name">NO MORE</p>
+        <p class="brand-tag">Upgrade plan</p>
+      </div>
+    </div>
+
+    <nav class="top-nav" aria-label="Primary">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="generate.html">Generate</a>
+      <a href="saved.html">Saved papers</a>
+      <a href="support.html">Support</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="nav-link" href="dashboard.html">Back to dashboard</a>
+    </div>
+  </header>
+
+  <main class="container landing">
+    <section class="hero panel">
+      <div class="hero-copy">
+        <p class="eyebrow">Premium access</p>
+        <h1>Unlock more power for your exam workflow.</h1>
+        <p class="lead">
+          Upgrade your account to access premium tools, better limits, and a more advanced platform experience.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#plans">View plans</a>
+          <a class="btn btn-secondary" href="dashboard.html">Go to dashboard</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="mini-preview">
+          <p class="mini-title">What premium can unlock</p>
+          <div class="mini-row"><span>Exam generation</span><strong>Higher limits</strong></div>
+          <div class="mini-row"><span>Saved papers</span><strong>More storage</strong></div>
+          <div class="mini-row"><span>Tracking</span><strong>Advanced views</strong></div>
+          <div class="mini-row"><span>Support</span><strong>Priority help</strong></div>
+        </div>
+
+        <div class="mini-panel">
+          <p>The payment section can later connect to a real checkout provider such as Stripe or PayPal.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="plans" class="section-heading">
+      <p class="eyebrow">Plans</p>
+      <h2>Choose the option that fits your needs.</h2>
+    </section>
+
+    <section class="grid cards-3">
+      <article class="panel feature-card">
+        <h3>Free</h3>
+        <p><strong>₹0</strong> / month</p>
+        <ul class="feature-list">
+          <li>Basic exam generation</li>
+          <li>Standard saved papers</li>
+          <li>Simple dashboard</li>
+        </ul>
+        <button class="btn btn-outline btn-full" type="button" data-upgrade-plan="free">Keep Free</button>
+      </article>
+
+      <article class="panel feature-card">
+        <h3>Pro</h3>
+        <p><strong>₹199</strong> / month</p>
+        <ul class="feature-list">
+          <li>More exam generation</li>
+          <li>More saved papers</li>
+          <li>Better progress tracking</li>
+        </ul>
+        <button class="btn btn-primary btn-full" type="button" data-upgrade-plan="pro">Choose Pro</button>
+      </article>
+
+      <article class="panel feature-card">
+        <h3>Premium</h3>
+        <p><strong>₹499</strong> / month</p>
+        <ul class="feature-list">
+          <li>All Pro features</li>
+          <li>Priority support</li>
+          <li>Full platform access</li>
+        </ul>
+        <button class="btn btn-primary btn-full" type="button" data-upgrade-plan="premium">Choose Premium</button>
+      </article>
+    </section>
+
+    <section class="panel cta-banner">
+      <div>
+        <p class="eyebrow">Payment setup</p>
+        <h2>Connect a real payment gateway later when you are ready.</h2>
+        <p>
+          For now, this page can simply mark the account as upgraded inside localStorage, so the app flow stays simple and testable.
+        </p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="support.html">Ask support</a>
+        <a class="btn btn-secondary" href="points.html">View progress</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
