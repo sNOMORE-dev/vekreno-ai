@@ -1,1 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generate Exam | NO MORE</title>
+  <meta name="description" content="Generate an exam paper with title, subject, topic, difficulty, and question count.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-bg"></div>
 
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark">N</div>
+      <div>
+        <p class="brand-name">NO MORE</p>
+        <p class="brand-tag">AI exam generator</p>
+      </div>
+    </div>
+
+    <nav class="top-nav" aria-label="Primary">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="saved.html">Saved papers</a>
+      <a href="points.html">Points</a>
+      <a href="support.html">Support</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="nav-link" href="dashboard.html">Back to dashboard</a>
+    </div>
+  </header>
+
+  <main class="container auth-layout">
+    <section class="auth-panel panel">
+      <p class="eyebrow">Create paper</p>
+      <h1>Build an exam paper in a few steps.</h1>
+      <p class="lead">
+        Fill in the details below and generate a structured paper you can preview and save.
+      </p>
+
+      <form id="examGeneratorForm" class="auth-form">
+        <div class="form-row">
+          <label for="examTitle">Exam title</label>
+          <input id="examTitle" name="examTitle" type="text" placeholder="Example: Midterm Science Test" required>
+        </div>
+
+        <div class="form-row">
+          <label for="subject">Subject</label>
+          <input id="subject" name="subject" type="text" placeholder="Example: Science" required>
+        </div>
+
+        <div class="form-row">
+          <label for="topic">Topic</label>
+          <input id="topic" name="topic" type="text" placeholder="Example: Human Body" required>
+        </div>
+
+        <div class="form-row">
+          <label for="difficulty">Difficulty level</label>
+          <select id="difficulty" name="difficulty" required>
+            <option value="Easy">Easy</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="questionCount">Number of questions</label>
+          <input id="questionCount" name="questionCount" type="number" min="1" max="100" value="10" required>
+        </div>
+
+        <div class="form-row">
+          <label for="instructions">Instructions for students</label>
+          <textarea id="instructions" name="instructions" placeholder="Write any instructions for the exam paper..."></textarea>
+        </div>
+
+        <div class="form-check">
+          <input id="shuffleQuestions" type="checkbox">
+          <label for="shuffleQuestions">Shuffle question order in the generated paper.</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full">Generate exam</button>
+      </form>
+
+      <div class="hero-actions">
+        <button type="button" id="saveGeneratedExam" class="btn btn-secondary">Save exam paper</button>
+        <a class="btn btn-outline" href="saved.html">Open saved papers</a>
+      </div>
+    </section>
+
+    <aside class="auth-side panel">
+      <p class="eyebrow">Preview</p>
+      <h2>Your generated exam will appear here.</h2>
+
+      <div class="mini-preview" style="margin-top: 18px;">
+        <p class="mini-title">Output preview</p>
+        <pre id="generatedExamOutput" style="margin:0; white-space:pre-wrap; color:#eefbf1; line-height:1.7; font-family:inherit;">No exam generated yet.</pre>
+      </div>
+
+      <div class="mini-note">
+        The JavaScript file will create the text preview and save the paper into the current user’s account.
+      </div>
+    </aside>
+  </main>
+</body>
+</html>
