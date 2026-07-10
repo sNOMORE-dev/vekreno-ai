@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity Tracking | NO MORE</title>
+  <meta name="description" content="View activity history and recent actions in the NO MORE platform.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-bg"></div>
+
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark">N</div>
+      <div>
+        <p class="brand-name">NO MORE</p>
+        <p class="brand-tag">Activity history</p>
+      </div>
+    </div>
+
+    <nav class="top-nav" aria-label="Primary">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="generate.html">Generate</a>
+      <a href="saved.html">Saved papers</a>
+      <a href="points.html">Points</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="nav-link" href="dashboard.html">Back to dashboard</a>
+    </div>
+  </header>
+
+  <main class="container landing">
+    <section class="hero panel">
+      <div class="hero-copy">
+        <p class="eyebrow">History</p>
+        <h1>Track what happened in your account.</h1>
+        <p class="lead">
+          This page can show your recent exam generations, saved papers, point gains, and upgrades in one place.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#activityList">View activity</a>
+          <a class="btn btn-secondary" href="generate.html">Generate more</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="mini-preview">
+          <p class="mini-title">History summary</p>
+          <div class="mini-row"><span>Total actions</span><strong data-activity-count>0</strong></div>
+          <div class="mini-row"><span>Latest action</span><strong data-last-action>None</strong></div>
+          <div class="mini-row"><span>Scope</span><strong>Current user</strong></div>
+          <div class="mini-row"><span>Storage</span><strong>Local browser</strong></div>
+        </div>
+
+        <div class="mini-panel">
+          <p>Later, you can store generated exams, points changes, and upgrades as timestamped events.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-heading">
+      <p class="eyebrow">Activity list</p>
+      <h2>Recent account actions.</h2>
+    </section>
+
+    <section id="activityList" class="grid" style="gap: 14px;">
+      <article class="panel feature-card">
+        <h3>No activity yet</h3>
+        <p>When the app saves events, they will appear here in reverse chronological order.</p>
+      </article>
+    </section>
+
+    <section class="panel cta-banner">
+      <div>
+        <p class="eyebrow">Improve history</p>
+        <h2>Add timestamps and event types in app.js for a richer timeline.</h2>
+        <p>
+          Each new exam, save, point update, or upgrade can be pushed into a stored history array and rendered on this page.
+        </p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="saved.html">Saved papers</a>
+        <a class="btn btn-secondary" href="dashboard.html">Dashboard</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
