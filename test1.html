@@ -3,69 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Exam Portal</title>
+  <title>Test 1 - Premium Exam Portal</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="container">
     <header class="hero">
-      <p class="badge">Premium Exam Portal</p>
-      <h1>Welcome to the Online Exam System</h1>
+      <p class="badge">Test 1</p>
+      <h1>Test 1</h1>
       <p class="subtitle">
-        This is your practice exam website where students can choose a test, enter their name, and start answering questions.
+        This is your first exam page. Enter your name carefully and answer each question below.
       </p>
     </header>
 
-    <nav class="card nav-card">
-      <a href="index.html">Home</a>
-      <a href="test1.html">Test 1</a>
-      <a href="test2.html">Test 2</a>
-    </nav>
-
-    <section class="card intro-card">
-      <h2>About This Website</h2>
-      <p>
-        This website is designed as a simple online exam portal. It has a home page, multiple test pages, and form fields where students can type their answers.
-      </p>
-      <p>
-        You can add more test pages later, change the questions anytime, and improve the site step by step.
-      </p>
-    </section>
-
     <section class="card">
-      <h2>Choose a Test</h2>
-      <p>Select one of the tests below to begin.</p>
-
-      <div class="exam-grid">
-        <a class="exam-link" href="test1.html">
-          <span>Test 1</span>
-          <small>Basic questions and form input</small>
-        </a>
-
-        <a class="exam-link" href="test2.html">
-          <span>Test 2</span>
-          <small>Second test page with new questions</small>
-        </a>
-      </div>
-    </section>
-
-    <section class="card feature-card">
-      <h2>Website Features</h2>
+      <h2>Test Instructions</h2>
       <ul class="feature-list">
-        <li>Clean black and emerald green design.</li>
-        <li>Mobile-friendly layout for phone use.</li>
-        <li>Separate pages for each test.</li>
-        <li>Simple forms for typing answers.</li>
-        <li>Easy to update later from GitHub.</li>
+        <li>Write your full name before starting.</li>
+        <li>Read each question carefully.</li>
+        <li>Type your answer in the box below each question.</li>
+        <li>When you finish, press the submit button.</li>
       </ul>
     </section>
 
+    <form class="card">
+      <h2>Student Details</h2>
+
+      <label for="studentname">Full Name</label>
+      <input type="text" id="studentname" name="studentname" placeholder="Enter your full name" required>
+
+      <label for="class">Class / Grade</label>
+      <input type="text" id="class" name="class" placeholder="Enter your class or grade" required>
+
+      <h2>Questions</h2>
+
+      <label for="q1">1. What is 2 + 2?</label>
+      <input type="text" id="q1" name="q1" placeholder="Type your answer here" required>
+
+      <label for="q2">2. What is the capital of India?</label>
+      <input type="text" id="q2" name="q2" placeholder="Type your answer here" required>
+
+      <label for="q3">3. Which planet do humans live on?</label>
+      <input type="text" id="q3" name="q3" placeholder="Type your answer here" required>
+
+      <label for="q4">4. What color is the sky on a clear day?</label>
+      <input type="text" id="q4" name="q4" placeholder="Type your answer here" required>
+
+      <button type="submit">Submit Test 1</button>
+    </form>
+
     <section class="card callout">
-      <h2>Start Here</h2>
-      <p>
-        Begin with Test 1 if you want to try the website. After that, open Test 2 or add more test pages later.
-      </p>
-      <a class="primary-link" href="test1.html">Start Test 1 Now</a>
+      <h2>Need Another Test?</h2>
+      <p>You can go back to the homepage or open the second test page.</p>
+      <a class="primary-link" href="index.html">Back to Home</a>
+      <br>
+      <a class="back-link" href="test2.html">Go to Test 2</a>
     </section>
   </main>
 </body>
