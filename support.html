@@ -1,1 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support | NO MORE</title>
+  <meta name="description" content="Help center and FAQ page for the NO MORE exam platform.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-bg"></div>
 
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark">N</div>
+      <div>
+        <p class="brand-name">NO MORE</p>
+        <p class="brand-tag">Help center</p>
+      </div>
+    </div>
+
+    <nav class="top-nav" aria-label="Primary">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="generate.html">Generate</a>
+      <a href="saved.html">Saved papers</a>
+      <a href="points.html">Points</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="nav-link" href="dashboard.html">Back to dashboard</a>
+    </div>
+  </header>
+
+  <main class="container landing">
+    <section class="hero panel">
+      <div class="hero-copy">
+        <p class="eyebrow">Support center</p>
+        <h1>Find answers, fast.</h1>
+        <p class="lead">
+          This page covers the most common questions about signup, exam generation, saved papers, and account progress.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#faq">Jump to FAQ</a>
+          <a class="btn btn-secondary" href="dashboard.html">Go to dashboard</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="mini-preview">
+          <p class="mini-title">Need help with</p>
+          <div class="mini-row"><span>Account access</span><strong>Login issues</strong></div>
+          <div class="mini-row"><span>Generator</span><strong>Paper creation</strong></div>
+          <div class="mini-row"><span>Storage</span><strong>Saved exams</strong></div>
+          <div class="mini-row"><span>Plans</span><strong>Upgrade options</strong></div>
+        </div>
+
+        <div class="mini-panel">
+          <p>Use the FAQ below for quick answers, or connect this page to live support later.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section-heading">
+      <p class="eyebrow">FAQ</p>
+      <h2>Common questions and answers.</h2>
+    </section>
+
+    <section class="grid" style="gap: 14px;">
+      <details class="panel feature-card" open>
+        <summary><h3>How do I log in to my account?</h3></summary>
+        <p>
+          Go to the signin page and enter the same email and password you used during signup.
+          If the details match what is stored in localStorage, the app will create an active session and send you to the dashboard.
+        </p>
+      </details>
+
+      <details class="panel feature-card">
+        <summary><h3>Why am I being redirected to signin?</h3></summary>
+        <p>
+          Protected pages check whether a current user exists before showing content.
+          If no session is found, the app sends you back to the signin page so the page stays private.
+        </p>
+      </details>
+
+      <details class="panel feature-card">
+        <summary><h3>How do I generate an exam paper?</h3></summary>
+        <p>
+          Open the Generate page, fill in the title, subject, topic, difficulty, and number of questions, then click Generate.
+          The app.js file can create a text preview and show it in the output panel.
+        </p>
+      </details>
+
+      <details class="panel feature-card">
+        <summary><h3>Where are saved exam papers stored?</h3></summary>
+        <p>
+          Saved papers are stored in the browser using localStorage and linked to the current user account.
+          They remain available after refresh because localStorage persists across browser sessions.
+        </p>
+      </details>
+
+      <details class="panel feature-card">
+        <summary><h3>Can I delete or edit a saved paper?</h3></summary>
+        <p>
+          You can add those features later by updating the saved exams array in app.js.
+          A delete button can remove an item from the array, save the updated data, and re-render the list.
+        </p>
+      </details>
+
+      <details class="panel feature-card">
+        <summary><h3>How do points and levels work?</h3></summary>
+        <p>
+          Your app can increase points when a user generates or saves an exam.
+          The level can be calculated from points, such as one level for every 100 points, or any system you choose.
+        </p>
+      </details>
+
+      <details class="panel feature-card">
+        <summary><h3>How do I upgrade my plan?</h3></summary>
+        <p>
+          Open the Upgrade page and choose a plan card.
+          For now, the page can mark the account as upgraded in localStorage, and later you can connect it to a real payment provider.
+        </p>
+      </details>
+    </section>
+
+    <section class="panel cta-banner">
+      <div>
+        <p class="eyebrow">Still need help?</p>
+        <h2>Use this page as a starting point for live chat or email support later.</h2>
+        <p>
+          You can connect a contact form, message inbox, or support ticket system when the app grows.
+        </p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="mailto:support@nomore.app">Email support</a>
+        <a class="btn btn-secondary" href="dashboard.html">Return home</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
