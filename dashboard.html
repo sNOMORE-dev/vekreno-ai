@@ -1,1 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | NO MORE</title>
+  <meta name="description" content="Student dashboard for the NO MORE exam platform. View points, level, saved exams, and quick actions.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-bg"></div>
 
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark">N</div>
+      <div>
+        <p class="brand-name">NO MORE</p>
+        <p class="brand-tag">Student dashboard</p>
+      </div>
+    </div>
+
+    <nav class="top-nav" aria-label="Primary">
+      <a href="generate.html">Generate</a>
+      <a href="saved.html">Saved papers</a>
+      <a href="points.html">Points</a>
+      <a href="support.html">Support</a>
+    </nav>
+
+    <div class="header-actions">
+      <button id="logoutBtn" class="btn btn-outline" type="button">Logout</button>
+    </div>
+  </header>
+
+  <main class="container landing">
+    <section class="hero panel">
+      <div class="hero-copy">
+        <p class="eyebrow">Welcome back</p>
+        <h1>Hello, <span data-user-name>Student</span>.</h1>
+        <p class="lead">
+          This is your workspace for exam generation, saved papers, points, and account tools.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="generate.html">Generate exam</a>
+          <a class="btn btn-secondary" href="saved.html">View saved papers</a>
+        </div>
+
+        <div class="hero-stats">
+          <div>
+            <strong><span data-user-points>0</span></strong>
+            <span>Points</span>
+          </div>
+          <div>
+            <strong><span data-user-level>1</span></strong>
+            <span>Level</span>
+          </div>
+          <div>
+            <strong data-user-role>student</strong>
+            <span>Role</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="mini-preview">
+          <p class="mini-title">Account summary</p>
+          <div class="mini-row"><span>Name</span><strong data-user-name>Student</strong></div>
+          <div class="mini-row"><span>Email</span><strong data-user-email>student@example.com</strong></div>
+          <div class="mini-row"><span>Status</span><strong>Active</strong></div>
+          <div class="mini-row"><span>Plan</span><strong>Free</strong></div>
+        </div>
+
+        <div class="mini-panel">
+          <p>Use this dashboard to move quickly between exam tools and account pages.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-heading">
+      <p class="eyebrow">Quick actions</p>
+      <h2>Everything you need is one click away.</h2>
+    </section>
+
+    <section class="grid cards-3">
+      <a class="panel feature-card exam-link" href="generate.html">
+        <span>AI Exam Generator</span>
+        <small>Create new exam papers with title, subject, topic, and difficulty.</small>
+      </a>
+
+      <a class="panel feature-card exam-link" href="saved.html">
+        <span>Saved Papers</span>
+        <small>Open and review all your stored exam papers from one place.</small>
+      </a>
+
+      <a class="panel feature-card exam-link" href="points.html">
+        <span>Level & Points</span>
+        <small>Check your progress and see how close you are to the next level.</small>
+      </a>
+
+      <a class="panel feature-card exam-link" href="upgrade.html">
+        <span>Upgrade Plan</span>
+        <small>Unlock premium features and payment options.</small>
+      </a>
+
+      <a class="panel feature-card exam-link" href="support.html">
+        <span>Support Center</span>
+        <small>Read FAQs, get help, and find platform guidance.</small>
+      </a>
+
+      <a class="panel feature-card exam-link" href="admin.html">
+        <span>Admin Overview</span>
+        <small>Go to the admin page for tracking and management tools.</small>
+      </a>
+    </section>
+
+    <section class="panel cta-banner">
+      <div>
+        <p class="eyebrow">Next step</p>
+        <h2>Generate your first exam paper.</h2>
+        <p>
+          The app.js file will use DOMContentLoaded to load this page data after the HTML is ready, then update the user blocks safely.
+        </p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="generate.html">Open generator</a>
+        <a class="btn btn-secondary" href="index.html">Back to home</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
