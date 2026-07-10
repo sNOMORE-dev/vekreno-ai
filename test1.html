@@ -3,27 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test 1</title>
+  <title>Premium Exam Portal</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Test 1</h1>
-  <p>Write your name and answer the questions.</p>
+  <main class="container">
+    <header class="hero">
+      <p class="badge">Premium Exam Portal</p>
+      <h1>Welcome to the Online Exam System</h1>
+      <p class="subtitle">
+        This is your practice exam website where students can choose a test, enter their name, and start answering questions.
+      </p>
+    </header>
 
-  <form>
-    <label for="studentname">Name:</label><br>
-    <input type="text" id="studentname" name="studentname" placeholder="Enter your name" required><br><br>
+    <nav class="card nav-card">
+      <a href="index.html">Home</a>
+      <a href="test1.html">Test 1</a>
+      <a href="test2.html">Test 2</a>
+    </nav>
 
-    <label for="q1">1. What is 2 + 2?</label><br>
-    <input type="text" id="q1" name="q1" placeholder="Your answer" required><br><br>
+    <section class="card intro-card">
+      <h2>About This Website</h2>
+      <p>
+        This website is designed as a simple online exam portal. It has a home page, multiple test pages, and form fields where students can type their answers.
+      </p>
+      <p>
+        You can add more test pages later, change the questions anytime, and improve the site step by step.
+      </p>
+    </section>
 
-    <label for="q2">2. What is the capital of India?</label><br>
-    <input type="text" id="q2" name="q2" placeholder="Your answer" required><br><br>
+    <section class="card">
+      <h2>Choose a Test</h2>
+      <p>Select one of the tests below to begin.</p>
 
-    <button type="submit">Submit Test</button>
-  </form>
+      <div class="exam-grid">
+        <a class="exam-link" href="test1.html">
+          <span>Test 1</span>
+          <small>Basic questions and form input</small>
+        </a>
 
-  <br>
-  <a href="index.html">Back to Home</a>
+        <a class="exam-link" href="test2.html">
+          <span>Test 2</span>
+          <small>Second test page with new questions</small>
+        </a>
+      </div>
+    </section>
+
+    <section class="card feature-card">
+      <h2>Website Features</h2>
+      <ul class="feature-list">
+        <li>Clean black and emerald green design.</li>
+        <li>Mobile-friendly layout for phone use.</li>
+        <li>Separate pages for each test.</li>
+        <li>Simple forms for typing answers.</li>
+        <li>Easy to update later from GitHub.</li>
+      </ul>
+    </section>
+
+    <section class="card callout">
+      <h2>Start Here</h2>
+      <p>
+        Begin with Test 1 if you want to try the website. After that, open Test 2 or add more test pages later.
+      </p>
+      <a class="primary-link" href="test1.html">Start Test 1 Now</a>
+    </section>
+  </main>
 </body>
 </html>
